@@ -24,6 +24,7 @@ public class UserController {
 		vo.setEmail("test@test.com");
 		vo.setName("tester");
 		vo.setAuthority("ROLE_USER");
+		vo.setAddress("ww");
 		log.info("register : " + vo);
 		userService.userRegister(vo);
 	}
