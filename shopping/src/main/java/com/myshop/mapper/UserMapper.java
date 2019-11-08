@@ -4,5 +4,5 @@ import com.myshop.domain.UserVO;
 
 public interface UserMapper {
 	
-	public void register(UserVO vo);
+	public int register(UserVO vo);
 }

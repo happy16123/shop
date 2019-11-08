@@ -25,9 +25,9 @@ public class UserService implements UserDetailsService {
 		return null;
 	}
 	
-	public void userRegister(UserVO vo) {
+	public int userRegister(UserVO vo) {
 		log.info("유저 등록 : " + vo);
-		userMapper.register(vo);
+		return userMapper.register(vo);
 	}
 	
 }
