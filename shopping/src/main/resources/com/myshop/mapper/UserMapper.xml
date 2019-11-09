@@ -9,4 +9,9 @@
 		insert into shop_user(id, password, name, email, address, authority)
 			values(#{id}, #{password}, #{name}, #{email}, #{address}, #{authority})
 	</insert>
+	
+	<select id="signIn" resultType="com.myshop.domain.UserVO">
+		select * from shop_user where id = #{username}
+	</select>
+	
 </mapper>

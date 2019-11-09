@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -42,12 +43,12 @@ public class UserTests {
 	@Test
 	public void testSignup() throws Exception{
 		UserVO vo = new UserVO();
-		vo.setId("test");
-		vo.setPassword("test");
-		vo.setEmail("test");
-		vo.setAddress("test");
-		vo.setName("test");
-		vo.setAuthority("ROLE_TESTER");
+		vo.setId("user1");
+		vo.setPassword("user1");
+		vo.setEmail("user1");
+		vo.setAddress("user1");
+		vo.setName("user1");
+		vo.setAuthority("ROLE_USER");
 		
 		String json = new Gson().toJson(vo);
 		

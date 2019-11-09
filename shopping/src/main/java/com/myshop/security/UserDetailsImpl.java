@@ -19,8 +19,7 @@ public class UserDetailsImpl implements UserDetails {
 	private String password;
 	private String name;
 	private String email;
-	private String address_1;
-	private String address_2;
+	private String address;
 	private Date regDate;
 	private String authority;
 
