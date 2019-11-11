@@ -1,4 +1,4 @@
-package com.myshop.service;
+package com.myshop.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,18 +10,16 @@ import org.springframework.stereotype.Service;
 
 import com.myshop.domain.UserVO;
 import com.myshop.mapper.UserMapper;
-import com.myshop.security.UserDetailsImpl;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
-public class UserService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 	
 	@Setter(onMethod_ = @Autowired)
 	private UserMapper userMapper;
-	
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -29,7 +27,7 @@ public class UserService implements UserDetailsService {
 		
 		UserVO vo = userMapper.signIn(username);
 		
-		UserDetailsImpl data = new UserDetailsImpl();
+		CustomUserDetails data = new CustomUserDetails();
 		data.setId(vo.getId());
 		data.setPassword(vo.getPassword());
 		data.setAddress(vo.getAddress());

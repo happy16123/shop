@@ -4,14 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myshop.domain.UserVO;
-import com.myshop.service.UserService;
+import com.myshop.security.CustomUserDetailsService;
 
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -23,7 +22,7 @@ import lombok.extern.log4j.Log4j;
 public class UserController {
 	
 	@Setter(onMethod_ = @Autowired)
-	private UserService userService;
+	private CustomUserDetailsService userService;
 	
 	@GetMapping(value = "/user/new")
 	public ModelAndView signupView() {
@@ -39,8 +38,10 @@ public class UserController {
 				new ResponseEntity<String>(HttpStatus.OK) : new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@GetMapping(value = "/user/page")
-	public void login() {
-		log.info("-----성공-----");
+	@GetMapping(value = "/user/login")
+	public ModelAndView loginView() {
+		ModelAndView mav = new ModelAndView("user/signin");
+		return mav;
 	}
+	
 }

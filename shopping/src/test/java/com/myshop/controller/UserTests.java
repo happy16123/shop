@@ -26,7 +26,8 @@ import lombok.extern.log4j.Log4j;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {
 		com.myshop.config.RootConfig.class,
-		com.myshop.config.ServletConfig.class })
+		com.myshop.config.ServletConfig.class,
+		com.myshop.config.SecurityConfig.class})
 @Log4j
 public class UserTests {
 	
@@ -58,5 +59,17 @@ public class UserTests {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json))
 		.andExpect(status().is(200));
+	}
+	
+	@Test
+	public void testSignin() throws Exception{
+		String username = "user1";
+		String password = "user1";
+		
+		mock.perform(post("/user/login")
+				.param("username", username)
+				.param("password", password))
+			.andExpect(status().is(200));
+		
 	}
 }

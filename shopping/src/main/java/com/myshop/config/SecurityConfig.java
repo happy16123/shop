@@ -9,10 +9,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.myshop.service.UserService;
+import com.myshop.security.CustomAuthenticationProvider;
+import com.myshop.security.CustomUserDetailsService;
 
 import lombok.Setter;
 
@@ -24,11 +24,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	private DataSource dataSource;
 	
 	@Setter(onMethod_ = @Autowired)
-	private UserService userService;
+	private CustomUserDetailsService userService;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-			auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+		auth.authenticationProvider(authenticationProvider());
+		auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
 	}
 	
 	@Override
@@ -39,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			
 		
 		http.formLogin()
-			.loginProcessingUrl("/user/page");
+			.loginPage("/user/login");
 	}
 	
 	@Bean
@@ -47,4 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		return new BCryptPasswordEncoder();
 	}
 	
+	@Bean
+	public CustomAuthenticationProvider authenticationProvider() {
+		return new CustomAuthenticationProvider();
+	}
 }

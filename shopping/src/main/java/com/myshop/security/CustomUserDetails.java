@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.Data;
 
 @Data
-public class UserDetailsImpl implements UserDetails {
+public class CustomUserDetails implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 	
