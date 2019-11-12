@@ -13,9 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
 
-@Log4j
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 	@Setter(onMethod_ = @Autowired)
@@ -28,7 +26,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String username = authentication.getName();
 		String password = (String)authentication.getCredentials();
-		log.info("username : " + username + "\npassword : " + password);
 		
 		CustomUserDetails user = null;
 		Collection<? extends GrantedAuthority> authorities = null;

@@ -14,4 +14,10 @@
 		select * from shop_user where id = #{username}
 	</select>
 	
+	<select id="check" resultType="String">
+		select password
+		from shop_user
+		where id = #{username}
+	</select>
+	
 </mapper>

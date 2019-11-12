@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -31,24 +31,26 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class UserTests {
 	
-	@Setter(onMethod_ = {@Autowired})
+	@Setter(onMethod_ = @Autowired)
 	private WebApplicationContext ctx;
 	
 	private MockMvc mock;
 	
 	@Before
 	public void setup() {
-		this.mock = MockMvcBuilders.webAppContextSetup(ctx).build();
+		this.mock = MockMvcBuilders
+				.webAppContextSetup(ctx)
+				.build();
 	}
 	
 	@Test
 	public void testSignup() throws Exception{
 		UserVO vo = new UserVO();
-		vo.setId("user1");
-		vo.setPassword("user1");
-		vo.setEmail("user1");
-		vo.setAddress("user1");
-		vo.setName("user1");
+		vo.setId("user2");
+		vo.setPassword("user2");
+		vo.setEmail("user2");
+		vo.setAddress("user2");
+		vo.setName("user2");
 		vo.setAuthority("ROLE_USER");
 		
 		String json = new Gson().toJson(vo);
@@ -60,16 +62,19 @@ public class UserTests {
 				.content(json))
 		.andExpect(status().is(200));
 	}
-	
+
 	@Test
-	public void testSignin() throws Exception{
-		String username = "user1";
+	public void testCheck() throws Exception{
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String password = "user1";
+		Gson gson = new Gson();
+		String json = gson.toJson(passwordEncoder.encode(password));
+		log.info(json);
 		
-		mock.perform(post("/user/login")
-				.param("username", username)
-				.param("password", password))
-			.andExpect(status().is(200));
+		mock.perform(post("/user/privacy")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json))
+		.andExpect(status().is(200));
 		
 	}
 }
