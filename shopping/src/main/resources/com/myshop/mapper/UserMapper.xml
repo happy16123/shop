@@ -20,4 +20,10 @@
 		where id = #{username}
 	</select>
 	
+	<select id="getInfo" resultType="com.myshop.domain.UserVO">
+		select name, address, email
+		from shop_user
+		where id = #{username}
+	</select>
+	
 </mapper>

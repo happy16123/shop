@@ -1,12 +1,17 @@
 package com.myshop.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -46,33 +51,28 @@ public class UserController {
 	}
 	
 	@GetMapping(value = "/user/privacy")
+	@PreAuthorize("isAuthenticated()")
 	public ModelAndView check() {
 		ModelAndView mav = new ModelAndView("user/privacy");
 		return mav;
 	}
 	
-	//@PostMapping(value = "/user/privacy", consumes = "application/json")
-	@PostMapping(value = "/user/privacy")
-	public ResponseEntity<UserVO> privacy(String password) {
+	@PostMapping(value = "/user/privacy", 
+			consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+//	@PostMapping(value = "/user/privacy")
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<UserVO> privacy(@RequestBody Map<String, String> password) {
+		log.info(password);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		log.info(auth.getName() + " " + password);
-		boolean check = userService.passwordCheck(auth.getName(), password);
-		log.info(check);
-		/*log.info(password);
-		log.info((String)auth.getCredentials());
-		
-		if(!passwordEncoder.matches(password, (String)auth.getCredentials())) {
-			log.info("비밀번호 맞지않음");
-			return new ResponseEntity<UserVO>(HttpStatus.BAD_REQUEST);
+		String pass = password.get("password"); 
+		log.info(auth.getName() + " " + pass);
+		UserVO vo = null;
+		if(userService.passwordCheck(auth.getName(), pass)) {
+			vo = userService.getData(auth.getName());
 		}
-		CustomUserDetails user = (CustomUserDetails)auth.getDetails();
-		UserVO vo = new UserVO();
-		vo.setAddress(user.getAddress());
-		vo.setEmail(user.getEmail());
-		vo.setRegDate(user.getRegDate());
-		vo.setName(user.getName());
-		log.info(vo);
-		return new ResponseEntity<UserVO>(vo, HttpStatus.OK);*/
-		return null;
+
+		return vo != null ?
+				new ResponseEntity<UserVO>(vo, HttpStatus.OK) : new ResponseEntity<UserVO>(vo, HttpStatus.BAD_REQUEST);
 	}
 }

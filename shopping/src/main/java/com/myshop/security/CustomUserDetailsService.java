@@ -37,6 +37,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 		return data;
 	}
 	
+	public UserVO getData(String username) { 
+		return userMapper.getInfo(username);
+	}
+	
 	public int userRegister(UserVO vo) {
 		vo.setPassword(passwordEncoder.encode(vo.getPassword()));
 		vo.setAuthority("ROLE_USER");
@@ -52,5 +56,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 		}
 		return result;
 	}
+	
 
 }
