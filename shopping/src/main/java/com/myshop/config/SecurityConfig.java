@@ -10,8 +10,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.myshop.security.CustomLoginFailureHandler;
 import com.myshop.security.CustomAuthenticationProvider;
+import com.myshop.security.CustomLoginSuccessHandler;
 import com.myshop.security.CustomUserDetailsService;
 
 import lombok.Setter;
@@ -39,10 +43,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 			.antMatchers("/user/new").permitAll()
 			.antMatchers("/user/page").hasAuthority("ROLE_USER")
-			.antMatchers("/user/privacy").hasAuthority("ROLE_USER");
+			.antMatchers("/user/privacy").access("hasRole('ROLE_USER')");
 	
 		http.formLogin()
-			.loginPage("/user/login");
+			.loginPage("/user/signin")
+			.loginProcessingUrl("/user/login")
+			.successHandler(loginSuccessHandler())
+			.failureHandler(loginFailureHandler());
+		
+		http.logout()
+			.logoutUrl("/user/logout")
+			.invalidateHttpSession(true)
+			.deleteCookies("JSESSION_ID");
+		
 	}
 	
 	@Bean
@@ -53,5 +66,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Bean
 	public CustomAuthenticationProvider authenticationProvider() {
 		return new CustomAuthenticationProvider();
+	}
+	
+	@Bean
+	public AuthenticationSuccessHandler loginSuccessHandler() {
+		return new CustomLoginSuccessHandler();
+	}
+	
+	@Bean
+	public AuthenticationFailureHandler loginFailureHandler() {
+		return new CustomLoginFailureHandler();
 	}
 }

@@ -26,6 +26,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 		
 		UserVO vo = userMapper.signIn(username);
 		
+		if(vo == null) {
+			throw new UsernameNotFoundException(username);
+		}
+		
 		CustomUserDetails data = new CustomUserDetails();
 		data.setId(vo.getId());
 		data.setPassword(vo.getPassword());

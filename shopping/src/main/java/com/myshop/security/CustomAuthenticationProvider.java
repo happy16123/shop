@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -29,22 +30,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		
 		CustomUserDetails user = null;
 		Collection<? extends GrantedAuthority> authorities = null;
+
+		user = (CustomUserDetails) userService.loadUserByUsername(username);
 		
-		try {
-			user = (CustomUserDetails)userService.loadUserByUsername(username);
-			
-			if(!passwordEncoder.matches(password, user.getPassword())){
-				throw new BadCredentialsException("비밀번호 불일치");
-			}
-			authorities = user.getAuthorities(); 
-			
-		} catch(UsernameNotFoundException e) {
-			e.printStackTrace();
-		} catch(BadCredentialsException e) {
-			e.printStackTrace();
-		} catch(Exception e) {
-			e.printStackTrace();
+		if(user == null) {
+			throw new InternalAuthenticationServiceException(username);
 		}
+
+		if (!passwordEncoder.matches(password, user.getPassword())) {
+			throw new BadCredentialsException("비밀번호 불일치");
+		}
+		
+		authorities = user.getAuthorities();
 		
 		return new UsernamePasswordAuthenticationToken(username, password, authorities);
 	}

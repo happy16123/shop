@@ -43,10 +43,21 @@ public class UserController {
 		return userService.userRegister(vo) == 1 ?
 				new ResponseEntity<String>(HttpStatus.OK) : new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-	@GetMapping(value = "/user/login")
+
+	@GetMapping(value = "/user/signin")
 	public ModelAndView loginView() {
 		ModelAndView mav = new ModelAndView("user/signin");
+		return mav;
+	}
+	
+	@GetMapping(value = "/user/logout")
+	public void logout() {
+	}
+	
+	@GetMapping(value = "/user/success")
+	@PreAuthorize("isAuthenticated()")
+	public ModelAndView loginSuccess() {
+		ModelAndView mav = new ModelAndView("user/success");
 		return mav;
 	}
 	
