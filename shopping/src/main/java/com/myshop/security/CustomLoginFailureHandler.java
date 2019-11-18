@@ -23,14 +23,16 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler{
 		String msg = null;
 		
 		if(exception instanceof BadCredentialsException) {
-			msg = exception.getMessage();
+			msg = "아이디나 비밀번호 일치하지 않음";
 		} else if(exception instanceof InternalAuthenticationServiceException) {
-			msg = exception.getMessage();
+			msg = "아이디 없음ㄴ";
 		} else if(exception instanceof UsernameNotFoundException) {
-			msg = exception.getMessage();
+			msg = "아이디 없음";
 		}
 		
-		response.sendRedirect("/user/signin?error=" + msg);
+		request.setAttribute("error", msg);
+//		response.sendRedirect("/user/signin?error=" + msg);
+		request.getRequestDispatcher("/user/signin").forward(request, response);
 		
 	}
 }

@@ -38,13 +38,23 @@
 				data : JSON.stringify({"password" : password}),
 				success : function(result){
 					console.log(result);
-					alert(result);
+					makeInfo(result);
 				},
 				error : function(xhr, status, error){
 					alert("에러");
 				}
 			});
 		});
+		
+		function makeInfo(data){
+			console.log(data);
+			let str = "";
+			str += "이름 : <input type='text' name='name' value='" + data.name + "'><br>";
+			str += "이메일 : <input type='text' name='email' value='" + data.email + "'><br>";
+			str += "주소 : <input type='text' name='address' value='" + data.address + "'>";
+			
+			$("#dataDiv").append(str);
+		}
 		
 	});
 </script>

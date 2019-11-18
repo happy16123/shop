@@ -34,10 +34,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		user = (CustomUserDetails) userService.loadUserByUsername(username);
 		
 		if(user == null) {
-			throw new InternalAuthenticationServiceException(username);
-		}
-
-		if (!passwordEncoder.matches(password, user.getPassword())) {
+			throw new UsernameNotFoundException(username);
+		} else if (!passwordEncoder.matches(password, user.getPassword())) {
 			throw new BadCredentialsException("비밀번호 불일치");
 		}
 		
