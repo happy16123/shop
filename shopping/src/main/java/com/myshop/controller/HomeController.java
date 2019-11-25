@@ -42,5 +42,8 @@ public class HomeController {
 	}
 
 
-	
+	@RequestMapping(value = "/stomp", method = RequestMethod.GET)
+	public void stomp(Locale locale, Model model) {
+
+	}
 }
