@@ -13,7 +13,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@ComponentScan(basePackages = {"com.myshop.service", "com.myshop.security"})
+@ComponentScan(basePackages = {"com.myshop.service", "com.myshop.security", "com.myshop.repo"})
 @MapperScan(basePackages = "com.myshop.mapper")
 public class RootConfig {
 	

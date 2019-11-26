@@ -17,7 +17,7 @@
 <body>
 	<input type="text" id="message">
 	<input type="button" id="sendBtn" value="보내기">
-	
+	<input type="button" id="disconnectBtn" value="disconnect">
 	<div id="data">
 	</div>
 </body>
@@ -34,6 +34,9 @@
 			}
 		});
 		
+		$("#disconnectBtn").on("click", function(){
+			onClose("tester");
+		});
 	});
 	
 //	let sock = new SockJS("<c:url value='/chat'/>");
@@ -57,6 +60,7 @@
 	}
 	
 	function onClose(evt){
+		stompClient.disconnect();
 		$("#data").append(evt + "연결 끊김");
 	}
 </script>

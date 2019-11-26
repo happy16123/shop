@@ -36,10 +36,10 @@ public class HomeController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/chat", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/chat", method = RequestMethod.GET)
 	public void chat(Locale locale, Model model) {
 
-	}
+	}*/
 
 
 	@RequestMapping(value = "/stomp", method = RequestMethod.GET)
