@@ -22,7 +22,7 @@
 	
 	<c:forEach items="${list}" var="room">
 		<tr>
-			<td><c:out value="${room.name}"/></td>
+			<td><a href="/chat/room/${room.roomId}"><c:out value="${room.name}"/></a></td>
 		</tr>
 	</c:forEach>
 	<div id="data">

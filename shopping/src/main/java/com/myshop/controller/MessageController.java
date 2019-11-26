@@ -21,11 +21,13 @@ public class MessageController {
 	
 	@MessageMapping("/chat/message")
 	public void message(ChatMessage msg) {
+		log.info(msg);
 		temp.convertAndSend("/topic/chat/room/" + msg.getRoomId(), msg);
 	}
 	
 	@MessageMapping("/chat/join")
 	public void join(ChatMessage msg) {
+		log.info(msg);
 		msg.setMessage("[알림] " + msg.getSender() + " 입장");
 		temp.convertAndSend("/topic/chat/room/" + msg.getRoomId(), msg);
 	}
