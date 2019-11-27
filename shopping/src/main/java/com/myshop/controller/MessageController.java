@@ -1,9 +1,9 @@
 package com.myshop.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,15 +20,19 @@ public class MessageController {
 	private SimpMessagingTemplate temp;
 	
 	@MessageMapping("/chat/message")
-	public void message(ChatMessage msg) {
-		log.info(msg);
+	public void message(ChatMessage msg, Principal principal) {
+//		log.info(msg);
+//		log.info(principal);
+		msg.setSender(principal.getName());
 		temp.convertAndSend("/topic/chat/room/" + msg.getRoomId(), msg);
 	}
 	
 	@MessageMapping("/chat/join")
-	public void join(ChatMessage msg) {
-		log.info(msg);
-		msg.setMessage("[알림] " + msg.getSender() + " 입장");
+	public void join(ChatMessage msg, Principal principal) {
+//		log.info(msg);
+//		log.info(principal);
+		msg.setSender(principal.getName());
+		msg.setMessage("[알림] " + principal.getName() + " 입장");
 		temp.convertAndSend("/topic/chat/room/" + msg.getRoomId(), msg);
 	}
 	

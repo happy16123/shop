@@ -46,14 +46,14 @@
 	
 	stompClient.connect({}, function(frame){
 		console.log("connected : " + frame);
-		stompClient.send("/app/chat/join", {}, JSON.stringify({"roomId" : roomId, "sender" : "tester", "message" : "tester"}));
+		stompClient.send("/app/chat/join", {}, JSON.stringify({"roomId" : roomId}));
 		stompClient.subscribe("/topic/chat/room/" + roomId, function(response){
 			onMessage(JSON.parse(response.body));
 		});
 	});
 	
 	function sendMessage(){
-		stompClient.send("/app/chat/message", {}, JSON.stringify({"roomId" : roomId, "sender" : "tester", "message" : $("#message").val()}));
+		stompClient.send("/app/chat/message", {}, JSON.stringify({"roomId" : roomId, "message" : $("#message").val()}));
 		$("#message").val("");
 	}
 	

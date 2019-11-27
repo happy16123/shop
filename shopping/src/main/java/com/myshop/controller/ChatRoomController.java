@@ -1,6 +1,7 @@
 package com.myshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.myshop.domain.ChatRoom;
 import com.myshop.repo.ChatRoomRepository;
 
 import lombok.Setter;
@@ -40,8 +42,13 @@ public class ChatRoomController {
 	@GetMapping(value = "/room/{roomId}")
 	public ModelAndView detailRoom(@PathVariable String roomId) {
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("room", repo.findRoomById(roomId));
-		mav.setViewName("chat/detailRoom");
+		ChatRoom room = repo.findRoomById(roomId);
+		if(room == null) {
+			mav.setStatus(HttpStatus.BAD_REQUEST);
+		} else {
+			mav.addObject("room", room);
+			mav.setViewName("chat/detailRoom");			
+		}
 		return mav;
 	}
 }
