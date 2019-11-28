@@ -42,9 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http.authorizeRequests()
 			.antMatchers("/user/new").permitAll()
-			.antMatchers("/user/signin").access("hasRole('ROLE_ANONYMOUS')")
 			.antMatchers("/user/page").hasAuthority("ROLE_USER")
-			.antMatchers("/user/privacy").access("hasRole('ROLE_USER')");
+			.antMatchers("/user/privacy").access("hasRole('ROLE_USER')")
+			.antMatchers("/chat/**").access("hasRole('ROLE_USER')");
 	
 		http.formLogin()
 			.loginPage("/user/signin")

@@ -20,7 +20,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 	
 		log.info(authentication.getName() + "로그인");
 		
-		response.sendRedirect("/user/success");
+		response.sendRedirect("/");
 	}
 	
 	
