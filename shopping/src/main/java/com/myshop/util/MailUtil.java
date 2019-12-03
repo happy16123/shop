@@ -1,7 +1,5 @@
 package com.myshop.util;
 
-import java.io.UnsupportedEncodingException;
-
 import javax.activation.DataSource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -29,8 +27,8 @@ public class MailUtil {
 		msgHelper.setText(htmlContent, true);
 	}
 	
-	public void setFrom(String email, String name) throws UnsupportedEncodingException, MessagingException{
-		msgHelper.setFrom(email, name);
+	public void setFrom(String email) throws MessagingException{
+		msgHelper.setFrom(email);
 	}
 	
 	public void setTo(String email) throws MessagingException{
