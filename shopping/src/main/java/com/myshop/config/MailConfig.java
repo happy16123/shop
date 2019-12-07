@@ -13,18 +13,20 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 @PropertySource("classpath:mail.properties")
 public class MailConfig  {
 	
-	@Value("${username}")
-	String username;
+	@Value("${user}")
+	private String user;
 	
 	@Value("${password}")
-	String password;
+	private String password;
 	
 	@Bean
 	public JavaMailSender mailSender() {
+		System.out.println(user);
+		System.out.println(password);
 		JavaMailSenderImpl mail = new JavaMailSenderImpl();
 		mail.setHost("smtp.gmail.com");
 		mail.setPort(587);
-		mail.setUsername(username);
+		mail.setUsername(user);
 		mail.setPassword(password);
 		
 		Properties properties = new Properties();
