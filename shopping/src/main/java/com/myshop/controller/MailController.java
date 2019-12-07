@@ -25,15 +25,15 @@ public class MailController {
 	@PostMapping(value = "/mail/certification", 
 			consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<String> certify(@RequestBody MailDTO data) {
+	public ResponseEntity<MailDTO> certify(@RequestBody MailDTO data) {
 		log.info(data);
 
 		CertNumber number = new CertNumber();
 		String cert = number.executeCert();
 		data.setContent(cert);
-		mailService.certifyMail(data);
-		return new ResponseEntity<String>(data.getContent(), HttpStatus.OK);
-//		return check == true ? new ResponseEntity<String>(data.getContent(), HttpStatus.OK)
-//				: new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		boolean check = mailService.certifyMail(data);
+		log.info("check : " + check);
+		return check == true ? new ResponseEntity<MailDTO>(data, HttpStatus.OK) 
+				: new ResponseEntity<MailDTO>(data, HttpStatus.BAD_REQUEST);
 	}
 }

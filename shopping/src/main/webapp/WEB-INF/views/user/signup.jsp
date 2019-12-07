@@ -37,12 +37,13 @@
 				type : "POST",
 				url : "/mail/certification",
 				contentType : "application/json; charset=UTF-8",
+				dataType : "json",
 				data : JSON.stringify({"receiver" : receiver}),
 				success : function(result){
 					console.log(result);
 				},
 				error : function(xhr, status, error){
-					console.log("error");
+					console.log(xhr);
 				}
 			});
 		});
