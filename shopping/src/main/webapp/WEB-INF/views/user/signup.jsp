@@ -34,11 +34,8 @@
 		$("#certMail").on("click", function(){
 			const receiver = $("input[name=email]").val();
 			$.ajax({
-				type : "POST",
-				url : "/mail/certification",
-				contentType : "application/json; charset=UTF-8",
-				dataType : "json",
-				data : JSON.stringify({"receiver" : receiver}),
+				type : "GET",
+				url : "/mail/" + receiver + "/certification",
 				success : function(result){
 					console.log(result);
 				},

@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,12 +24,13 @@ public class MailController {
 	@Setter(onMethod_ = @Autowired)
 	private MailService mailService;
 	
-	@PostMapping(value = "/mail/certification", 
-			consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+	@GetMapping(value = "/mail/{email:.+}/certification",
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public ResponseEntity<MailDTO> certify(@RequestBody MailDTO data) {
-		log.info(data);
-
+	public ResponseEntity<MailDTO> certify(@PathVariable("email") String email) {
+		log.info(email);
+		
+		MailDTO data = new MailDTO();
+		data.setReceiver(email);
 		CertNumber number = new CertNumber();
 		String cert = number.executeCert();
 		data.setContent(cert);
