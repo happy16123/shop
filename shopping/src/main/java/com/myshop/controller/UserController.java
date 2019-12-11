@@ -42,7 +42,7 @@ public class UserController {
 	public ResponseEntity<String> register(UserVO vo) {
 		log.info("register : " + vo);
 		return userService.userRegister(vo) == 1 ?
-				new ResponseEntity<String>(HttpStatus.OK) : new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+				new ResponseEntity<String>(HttpStatus.OK) : new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 	}
 
 	@RequestMapping(value = "/user/signin")
