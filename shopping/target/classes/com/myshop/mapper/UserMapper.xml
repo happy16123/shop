@@ -14,7 +14,7 @@
 		select * from shop_user where id = #{username}
 	</select>
 	
-	<select id="check" resultType="String">
+	<select id="passwordCheck" resultType="String">
 		select password
 		from shop_user
 		where id = #{username}
@@ -22,6 +22,12 @@
 	
 	<select id="getInfo" resultType="com.myshop.domain.UserVO">
 		select name, address, email
+		from shop_user
+		where id = #{username}
+	</select>
+	
+	<select id="idCheck" resultType="Integer">
+		select count(id)
 		from shop_user
 		where id = #{username}
 	</select>

@@ -13,13 +13,16 @@
 	<form action="/user/new" method="post">
 		<div class="form-group">
 			<label for="id">아이디</label>
-			<input type="text" class="form-control" id="id" name="id" placeholder="아이디 입력">		
+			<input type="text" class="form-control" id="id" name="id" placeholder="아이디 입력">
+			<button type="button" class="btn btn-info" id="idCheckBtn">아이디 중복확인</button>
 		</div>
 		<div class="form-group">
 			<label for="password">비밀번호</label>
-			<input type="password" class="form-control" id="password" name="password" placeholder="비밀번호">
+			<input type="password" class="form-control" id="password" name="password" placeholder="비밀번호"><br/>
 			<label for="passwordCheck">비밀번호 확인</label>
-			<input type="password" class="form-control" id="passwordCheck" name="passwordCheck" placeholder="비밀번호 확인">		
+			<input type="password" class="form-control" id="passwordCheck" name="passwordCheck" placeholder="비밀번호 확인"><br/>
+			<div class="alert alert-success" id="alert-success">비밀번호가 일치합니다</div>		
+			<div class="alert alert-danger" id="alert-danger">비밀번호가 일치하지 않습니다</div>					
 		</div>
 		<div class="form-group">
 			<label for="name">이름</label>
@@ -54,12 +57,25 @@
 <script>
 	$(document).ready(function(){
 		
+		const mailRegExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+		const alert_success = $("#alert-success");
+		const alert_danger = $("#alert-danger");
+		const mailCheckDiv = $("#mailCheckDiv");
+		
 		let mailExp = false;
 		let mailCert = false;
+		let passwordCheck = false;
+		let idCheck = false;
 		let certNum;
+		
+		
+		alert_success.hide();
+		alert_danger.hide();
+		mailCheckDiv.hide();
 		
 		$("#certMailBtn").on("click", function(){
 			const receiver = $("input[name=email]").val();
+			mailCheckDiv.show();
 			
 			if(mailExp === true){
 				$.ajax({
@@ -78,7 +94,6 @@
 		});
 		
 		$("#email").keyup(function(){
-			const mailRegExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 			let mail = $("#email").val();
 			mailRegExp.test(mail) === true ? mailExp = true : mailExp = false;
 		});
@@ -92,7 +107,52 @@
 			} else{
 				alert("인증번호가 맞지않습니다");
 			}
-		})
+		});
+		
+		$("#idCheckBtn").on("click", function(){
+			const id = $("#id").val();
+			
+			$.ajax({
+				type : "GET",
+				url : "/user/new/" + id,
+				success : function(result){
+					if(result.check === 0){
+						alert("아이디 사용이 가능합니다");
+						idCheck = true;
+					} else{
+						alert("이미 사용중인 아이디입니다");
+						idCheck = false;
+					}
+				},
+				error : function(xhr, status, error){
+					console.log(xhr);
+				}
+			});
+		});
+		
+		
+		$("#passwordCheck").keyup(function(){
+			passCheck();
+		});
+		
+		$("#password").keyup(function(){
+			passCheck();
+		});
+		
+		function passCheck(){
+			const pass1 = $("#password").val();
+			const pass2 = $("#passwordCheck").val();
+			
+			if(pass1 === pass2){
+				passwordCheck = true;
+				alert_success.show();
+				alert_danger.hide();
+			} else {
+				passwordCheck = false;
+				alert_success.hide();
+				alert_danger.show();				
+			}
+		}
 		
 	});
 </script>

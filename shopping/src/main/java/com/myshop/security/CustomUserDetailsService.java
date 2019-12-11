@@ -55,12 +55,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 	
 	public boolean passwordCheck(String username, String password) {
 		boolean result = false;
-		String value = userMapper.check(username);
+		String value = userMapper.passwordCheck(username);
 		if(passwordEncoder.matches(password, value)) {
 			result = true;
 		}
 		return result;
 	}
 	
+	public int idCheck(String username) {
+		return userMapper.idCheck(username);
+	}
 
 }

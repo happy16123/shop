@@ -1,5 +1,6 @@
 package com.myshop.controller;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,7 +52,14 @@ public class UserController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("user/signin");
 		return mav;
-		
+	}
+	
+	@GetMapping(value = "/user/new/{id}")
+	public ResponseEntity<Map<String, Integer>> idCheck(@PathVariable("id") String username){
+		int result = userService.idCheck(username);
+		Map<String, Integer> data = new LinkedHashMap<String, Integer>();
+		data.put("check", result);
+		return new ResponseEntity<Map<String, Integer>>(data, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/user/logout")
