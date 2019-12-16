@@ -45,7 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.antMatchers("/user/page").hasAuthority("ROLE_USER")
 			.antMatchers("/user/privacy").access("hasRole('ROLE_USER')")
 			.antMatchers("/chat/**").access("hasRole('ROLE_USER')");
-	
+		
+		
 		http.formLogin()
 			.loginPage("/user/signin")
 			.loginProcessingUrl("/user/login")

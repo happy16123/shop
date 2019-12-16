@@ -75,9 +75,9 @@
 		
 		$("#certMailBtn").on("click", function(){
 			const receiver = $("input[name=email]").val();
-			mailCheckDiv.show();
 			
 			if(mailExp === true){
+				mailCheckDiv.show();
 				$.ajax({
 					type : "GET",
 					url : "/mail/" + receiver + "/certification",
