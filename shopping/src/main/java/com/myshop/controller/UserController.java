@@ -47,8 +47,15 @@ public class UserController {
 				new ResponseEntity<String>(HttpStatus.OK) : new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 	}
 
-	@RequestMapping(value = "/user/signin")
+	@GetMapping(value = "/user/signin")
 	public ModelAndView loginView() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("user/signin");
+		return mav;
+	}
+	
+	@PostMapping(value = "/user/signin")
+	public ModelAndView loginViewPost() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("user/signin");
 		return mav;

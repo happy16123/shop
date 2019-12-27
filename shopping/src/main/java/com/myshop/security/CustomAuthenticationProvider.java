@@ -27,12 +27,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String username = authentication.getName();
 		String password = (String)authentication.getCredentials();
-		
+
 		CustomUserDetails user = null;
 		Collection<? extends GrantedAuthority> authorities = null;
 
 		user = (CustomUserDetails) userService.loadUserByUsername(username);
-		
+		System.out.println(user);
 		if(user == null) {
 			throw new UsernameNotFoundException(username);
 		} else if (!passwordEncoder.matches(password, user.getPassword())) {
