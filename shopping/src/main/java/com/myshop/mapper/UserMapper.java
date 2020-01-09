@@ -9,4 +9,5 @@ public interface UserMapper {
 	public String passwordCheck(String username);
 	public UserVO getInfo(String username);
 	public int idCheck(String username);
+	public String findIdByEmail(String email);
 }

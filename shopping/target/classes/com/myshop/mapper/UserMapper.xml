@@ -32,4 +32,10 @@
 		where id = #{username}
 	</select>
 	
+	<select id="findIdByEmail" resultType="String">
+		select id
+		from shop_user
+		where email = #{email}
+	</select>
+	
 </mapper>

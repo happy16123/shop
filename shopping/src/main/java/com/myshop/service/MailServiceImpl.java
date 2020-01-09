@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.myshop.domain.MailDTO;
+import com.myshop.mapper.UserMapper;
 import com.myshop.util.MailUtil;
 
 import lombok.Setter;
@@ -16,6 +17,9 @@ public class MailServiceImpl implements MailService{
 	
 	@Setter(onMethod_ = @Autowired)
 	private JavaMailSender mailSender;
+	
+	@Setter(onMethod_ = @Autowired)
+	private UserMapper userMapper;
 
 	@Override
 	public boolean certifyMail(MailDTO data){
@@ -34,5 +38,16 @@ public class MailServiceImpl implements MailService{
 		}
 		return false;
 	}
-
+	
+	@Override
+	public boolean findId(String email, String name) {
+		
+		userMapper.findIdByEmail(email);
+		try {
+			MailUtil mail = new MailUtil(mailSender);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }
