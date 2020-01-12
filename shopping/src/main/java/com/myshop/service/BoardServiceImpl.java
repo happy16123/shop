@@ -2,46 +2,43 @@ package com.myshop.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myshop.domain.BoardVO;
+import com.myshop.mapper.BoardMapper;
+
+import lombok.Setter;
 
 @Service
 public class BoardServiceImpl implements BoardService{
 	
-	
+	@Setter(onMethod_ = {@Autowired})
+	private BoardMapper boardMapper;
 	
 	@Override
 	public List<BoardVO> getAllList() {
-		// TODO Auto-generated method stub
-		return null;
+		return boardMapper.allList();
 	}
 	
 	@Override
 	public BoardVO getDetail(long bno) {
-		// TODO Auto-generated method stub
-		return null;
+		return boardMapper.detail(bno);
 	}
 	
 	@Override
 	public int modify(BoardVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return boardMapper.update(vo);
 	}
 	
 	@Override
 	public int register(BoardVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return boardMapper.insert(vo);
 	}
 	
 	@Override
 	public int remove(long bno) {
-		// TODO Auto-generated method stub
-		return 0;
+		return boardMapper.delete(bno);
 	}
 	
-	public BoardServiceImpl() {
-		// TODO Auto-generated constructor stub
-	}
 }
