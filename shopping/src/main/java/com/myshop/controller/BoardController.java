@@ -3,6 +3,7 @@ package com.myshop.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +18,11 @@ import com.myshop.domain.BoardVO;
 import com.myshop.service.BoardService;
 
 import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 @RestController
 @RequestMapping("/board")
+@Log4j
 public class BoardController {
 	
 	@Setter(onMethod_ = @Autowired)
@@ -27,16 +30,17 @@ public class BoardController {
 	
 	@GetMapping(value = "/{page}")
 	public ResponseEntity<List<BoardVO>> getList(@PathVariable("page") int page) {
-		return null;
+		return new ResponseEntity<List<BoardVO>>(boardService.getAllList(), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{page}/{bno}")
 	public ResponseEntity<BoardVO> getDetail(@PathVariable("page") int page, @PathVariable("bno") long bno){
-		return null;
+		return new ResponseEntity<BoardVO>(boardService.getDetail(bno), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/new", consumes = "application/json")
 	public ResponseEntity<String> create(@RequestBody BoardVO vo){
+		log.info("board create : " + vo);
 		return null;
 	}
 	

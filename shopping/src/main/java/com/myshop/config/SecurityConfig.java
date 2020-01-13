@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -44,7 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.antMatchers("/user/new").permitAll()
 			.antMatchers("/user/page").hasAuthority("ROLE_USER")
 			.antMatchers("/user/privacy").access("hasRole('ROLE_USER')")
-			.antMatchers("/chat/**").access("hasRole('ROLE_USER')");
+			.antMatchers("/chat/**").access("hasRole('ROLE_USER')")
+			.antMatchers("/board/**").access("hasRole('ROLE_USER')");
 		
 		
 		http.formLogin()
@@ -57,9 +59,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.logoutUrl("/user/logout")
 			.invalidateHttpSession(true)
 			.deleteCookies("JSESSION_ID");
-		
 	}
 	
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+	   super.configure(web);
+	   web.ignoring().antMatchers("/assest/**","/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**");
+	}
+
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

@@ -13,7 +13,7 @@
 		]]>
 	</select>
 	
-	<select id="detail" resultType="com.myshop.domail.BoardVO">
+	<select id="detail" resultType="com.myshop.domain.BoardVO">
 		select bno, title, content, writer, regdate, updatedate, replycnt
 		from tbl_board
 		where bno=#{bno}
