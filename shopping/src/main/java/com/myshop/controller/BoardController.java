@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myshop.domain.BoardVO;
+import com.myshop.domain.Criteria;
 import com.myshop.service.BoardService;
 
 import lombok.Setter;
@@ -28,9 +29,11 @@ public class BoardController {
 	@Setter(onMethod_ = @Autowired)
 	private BoardService boardService;
 	
-	@GetMapping(value = "/{page}")
-	public ResponseEntity<List<BoardVO>> getList(@PathVariable("page") int page) {
-		return new ResponseEntity<List<BoardVO>>(boardService.getAllList(), HttpStatus.OK);
+	@GetMapping(value = "/{pageNum}")
+	public ResponseEntity<List<BoardVO>> getList(@PathVariable("pageNum") int pageNum) {
+		Criteria cri = new Criteria();
+		cri.setPageNum(pageNum);
+		return new ResponseEntity<List<BoardVO>>(boardService.getAllList(cri), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{page}/{bno}")

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myshop.domain.BoardVO;
+import com.myshop.domain.Criteria;
 import com.myshop.mapper.BoardMapper;
 
 import lombok.Setter;
@@ -17,8 +18,8 @@ public class BoardServiceImpl implements BoardService{
 	private BoardMapper boardMapper;
 	
 	@Override
-	public List<BoardVO> getAllList() {
-		return boardMapper.allList();
+	public List<BoardVO> getAllList(Criteria cri) {
+		return boardMapper.allList(cri);
 	}
 	
 	@Override
