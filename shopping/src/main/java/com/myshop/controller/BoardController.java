@@ -44,16 +44,22 @@ public class BoardController {
 	@PostMapping(value = "/new", consumes = "application/json")
 	public ResponseEntity<String> create(@RequestBody BoardVO vo){
 		log.info("board create : " + vo);
-		return null;
+		int result = boardService.register(vo);
+		return result == 0 ? new ResponseEntity<String>("success", HttpStatus.OK) : new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 	}
 	
 	@PatchMapping(value = "/{bno}", consumes = "application/json")
 	public ResponseEntity<String> modify(@RequestBody BoardVO vo, @PathVariable("bno") long bno){
-		return null;
+		vo.setBno(bno);
+		log.info("board modify : " + vo);
+		int result = boardService.modify(vo);
+		return result == 0 ? new ResponseEntity<String>("success", HttpStatus.OK) : new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 	}
 	
 	@DeleteMapping(value = "/{bno}")
 	public ResponseEntity<String> remove(@PathVariable("bno") long bno){
-		return null;
+		log.info("board delete : " + bno);
+		int result = boardService.remove(bno);
+		return result == 0 ? new ResponseEntity<String>("success", HttpStatus.OK) : new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 	}
 }
